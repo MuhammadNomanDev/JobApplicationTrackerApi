@@ -29,7 +29,7 @@ desktop.ini
 .idea/
 
 # ASP.NET / .NET Core
-appsettings.*.json
+src/JobApplicationTrackerAPI.Api/appsettings.*.json
 *.db
 *.bak
 *.sqlite
