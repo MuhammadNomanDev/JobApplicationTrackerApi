@@ -8,11 +8,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JobApplicationTrackerAPI.Application\JobApplicationTrackerAPI.Application.csproj" />
+    <ProjectReference Include="..\JobApplicationTrackerAPI.Infrastructure\JobApplicationTrackerAPI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
