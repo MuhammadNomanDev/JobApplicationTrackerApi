@@ -2,9 +2,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JobApplicationTrackerAPI.Domain\JobApplicationTrackerAPI.Domain.csproj" />
+    <ProjectReference Include="..\JobApplicationTrackerAPI.Application\JobApplicationTrackerAPI.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

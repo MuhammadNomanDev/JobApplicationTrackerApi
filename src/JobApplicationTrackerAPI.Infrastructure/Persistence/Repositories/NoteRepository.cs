@@ -1,3 +1,4 @@
+using JobApplicationTracker.Application.Interfaces.Repositories;
 using JobApplicationTracker.Domain.Entities;
 using JobApplicationTracker.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

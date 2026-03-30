@@ -1,6 +1,6 @@
 using JobApplicationTracker.Domain.Entities;
 
-namespace JobApplicationTracker.Infrastructure.Persistence.Repositories;
+namespace JobApplicationTracker.Application.Interfaces.Repositories;
 
 public interface IJobApplicationRepository
 {
