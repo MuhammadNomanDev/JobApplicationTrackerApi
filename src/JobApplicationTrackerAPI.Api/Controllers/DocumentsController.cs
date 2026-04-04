@@ -63,4 +63,16 @@ public class DocumentsController : ControllerBase
         return CreatedAtAction(nameof(GetDocument), new { id }, ApiResponse<Guid>.Created(id, "Document uploaded successfully."));
     }
 
+    /// <summary>
+    /// Delete a document
+    /// </summary>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteDocument(Guid id)
+    {
+        await _mediator.Send(new DeleteDocumentCommand(id));
+        return NoContent();
+    }
+
 }
