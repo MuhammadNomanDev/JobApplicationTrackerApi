@@ -53,5 +53,16 @@ public class JobApplicationsController : ControllerBase
         return Ok(ApiResponse<JobApplicationDto>.Ok(result));
     }
 
+    /// <summary>
+    /// Create a new job application
+    /// </summary>
+    [HttpPost]
+    [ProducesResponseType(typeof(ApiResponse<Guid>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateJobApplication([FromBody] CreateJobApplicationCommand command)
+    {
+        var id = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetJobApplication), new { id }, ApiResponse<Guid>.Created(id, "Job application created successfully."));
+    }
     
 }
