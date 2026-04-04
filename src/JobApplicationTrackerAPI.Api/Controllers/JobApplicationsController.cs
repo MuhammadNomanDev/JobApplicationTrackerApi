@@ -41,5 +41,17 @@ public class JobApplicationsController : ControllerBase
         return Ok(ApiResponse<PagedResult<JobApplicationDto>>.Ok(result));
     }
 
+    /// <summary>
+    /// Get a job application by ID
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(ApiResponse<JobApplicationDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetJobApplication(Guid id)
+    {
+        var result = await _mediator.Send(new GetJobApplicationQuery(id));
+        return Ok(ApiResponse<JobApplicationDto>.Ok(result));
+    }
+
     
 }
