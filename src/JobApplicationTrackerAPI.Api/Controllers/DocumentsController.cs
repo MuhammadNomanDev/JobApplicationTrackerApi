@@ -33,4 +33,15 @@ public class DocumentsController : ControllerBase
         return Ok(ApiResponse<DocumentDto>.Ok(result));
     }
 
+    /// <summary>
+    /// Get all documents for a job application
+    /// </summary>
+    [HttpGet("GetDocumentsByJobApplication/{jobApplicationId:guid}")]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DocumentDto>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetDocumentsByJobApplication(Guid jobApplicationId)
+    {
+        var result = await _mediator.Send(new GetDocumentsByJobApplicationQuery(jobApplicationId));
+        return Ok(ApiResponse<IEnumerable<DocumentDto>>.Ok(result));
+    }
+
 }
