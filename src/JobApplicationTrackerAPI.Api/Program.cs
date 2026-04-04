@@ -1,8 +1,4 @@
 using JobApplicationTracker.Application;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Domain.Interfaces;
 using JobApplicationTracker.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +17,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 // Configure JWT authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.ASCII.GetBytes(jwtSettings.GetValue<string>("Key"));
+var key = Encoding.ASCII.GetBytes(jwtSettings.GetValue<string>("Key")!);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -29,7 +25,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = !builder.Environment.IsDevelopment();
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
