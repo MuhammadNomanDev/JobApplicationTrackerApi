@@ -64,5 +64,23 @@ public class JobApplicationsController : ControllerBase
         var id = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetJobApplication), new { id }, ApiResponse<Guid>.Created(id, "Job application created successfully."));
     }
+
+    /// <summary>
+    /// Update a job application
+    /// </summary>
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateJobApplication(Guid id, [FromBody] UpdateJobApplicationCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest(ApiResponse<object>.Fail("ID in URL does not match ID in body."));
+        }
+
+        await _mediator.Send(command);
+        return NoContent();
+    }
     
 }
