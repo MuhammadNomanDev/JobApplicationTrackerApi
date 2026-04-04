@@ -1,6 +1,7 @@
 using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTracker.Application.Settings;
 using JobApplicationTracker.Domain.Entities;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,16 +12,16 @@ namespace JobApplicationTracker.Infrastructure.Services;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
-    private readonly IConfiguration _configuration;
+    private readonly JwtSettings _jwtSettings;
 
-    public JwtTokenGenerator(IConfiguration configuration)
+    public JwtTokenGenerator(IOptions<JwtSettings> jwtSettings)
     {
-        _configuration = configuration;
+        _jwtSettings = jwtSettings.Value;
     }
 
     public string GenerateToken(User user)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
@@ -32,10 +33,10 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         };
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(TokenExpirationMinutes),
+            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationMinutes),
             signingCredentials: credentials
         );
 
@@ -47,5 +48,5 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
 
-    public int TokenExpirationMinutes => int.Parse(_configuration["Jwt:TokenExpirationMinutes"] ?? "30");
+    public int TokenExpirationMinutes => _jwtSettings.TokenExpirationMinutes;
 }
