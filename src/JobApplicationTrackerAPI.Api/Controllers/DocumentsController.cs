@@ -44,4 +44,23 @@ public class DocumentsController : ControllerBase
         return Ok(ApiResponse<IEnumerable<DocumentDto>>.Ok(result));
     }
 
+    /// <summary>
+    /// Upload a document for a job application
+    /// </summary>
+    [HttpPost]
+    [RequestSizeLimit(10 * 1024 * 1024)] // 10MB
+    [ProducesResponseType(typeof(ApiResponse<Guid>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status413PayloadTooLarge)]
+    public async Task<IActionResult> UploadDocument(
+        [FromForm] Guid jobApplicationId,
+        [FromForm] IFormFile file,
+        [FromForm] DocumentType documentType)
+    {
+        var command = new CreateDocumentCommand(jobApplicationId, file, documentType);
+        var id = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetDocument), new { id }, ApiResponse<Guid>.Created(id, "Document uploaded successfully."));
+    }
+
 }
