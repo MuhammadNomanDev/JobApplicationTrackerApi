@@ -1,10 +1,11 @@
+using JobApplicationTracker.Application.Interfaces;
 using JobApplicationTracker.Domain.Entities;
 using JobApplicationTracker.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobApplicationTracker.Infrastructure.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : DbContext, IAppDbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
