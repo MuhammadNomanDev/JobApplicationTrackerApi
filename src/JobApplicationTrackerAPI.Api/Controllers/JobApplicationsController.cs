@@ -82,5 +82,23 @@ public class JobApplicationsController : ControllerBase
         await _mediator.Send(command);
         return NoContent();
     }
+
+    /// <summary>
+    /// Update the status of a job application
+    /// </summary>
+    [HttpPatch("{id:guid}/status")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateJobApplicationStatus(Guid id, [FromBody] UpdateJobApplicationStatusCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest(ApiResponse<object>.Fail("ID in URL does not match ID in body."));
+        }
+
+        await _mediator.Send(command);
+        return NoContent();
+    }
     
 }
