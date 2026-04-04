@@ -62,4 +62,16 @@ public class NotesController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Delete a note
+    /// </summary>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteNote(Guid id)
+    {
+        await _mediator.Send(new DeleteNoteCommand(id));
+        return NoContent();
+    }
+    
 }
