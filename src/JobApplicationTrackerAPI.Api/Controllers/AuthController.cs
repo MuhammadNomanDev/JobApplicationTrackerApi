@@ -1,4 +1,6 @@
+using JobApplicationTracker.Api.Models;
 using JobApplicationTracker.Application.Features.Auth.Commands;
+using JobApplicationTracker.Application.Features.Auth.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,24 +17,40 @@ public class AuthController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("register")] // POST /api/auth/register
+    /// <summary>
+    /// Register a new user account
+    /// </summary>
+    [HttpPost("register")]
+    [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register(RegisterCommand command)
     {
         var response = await _mediator.Send(command);
-        return Ok(new { token = response.Token, refreshToken = response.RefreshToken, expiration = response.Expiration });
+        return Ok(ApiResponse<AuthResponse>.Created(response, "User registered successfully."));
     }
 
-    [HttpPost("login")] // POST /api/auth/login
+    /// <summary>
+    /// Authenticate user and return JWT tokens
+    /// </summary>
+    [HttpPost("login")]
+    [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login(LoginCommand command)
     {
-        var response = await _mediator.Send(new LoginCommand(command.Email, command.Password));
-        return Ok(new { token = response.Token, refreshToken = response.RefreshToken, expiration = response.Expiration });
+        var response = await _mediator.Send(command);
+        return Ok(ApiResponse<AuthResponse>.Ok(response));
     }
 
-    [HttpPost("refresh")] // POST /api/auth/refresh
+    /// <summary>
+    /// Refresh JWT tokens using a valid refresh token
+    /// </summary>
+    [HttpPost("refresh")]
+    [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> RefreshToken(RefreshTokenCommand command)
     {
         var response = await _mediator.Send(command);
-        return Ok(new { token = response.Token, refreshToken = response.RefreshToken, expiration = response.Expiration });
+        return Ok(ApiResponse<AuthResponse>.Ok(response));
     }
 }

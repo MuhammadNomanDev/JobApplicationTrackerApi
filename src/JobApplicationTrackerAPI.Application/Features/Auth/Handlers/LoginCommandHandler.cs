@@ -31,15 +31,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResponse>
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Email.Value == request.Email, cancellationToken);
 
-        if (user == null)
+        // Use generic error to prevent user enumeration attacks
+        if (user == null || !_passwordHasher.VerifyPassword(user.PasswordHash, request.Password))
         {
-            throw new ValidationException("Invalid email address");
-        }
-
-        // Verify password
-        if (!_passwordHasher.VerifyPassword(user.PasswordHash, request.Password))
-        {
-            throw new ValidationException("Invalid password");
+            throw new ValidationException("Invalid email or password.");
         }
 
         // Generate JWT tokens
