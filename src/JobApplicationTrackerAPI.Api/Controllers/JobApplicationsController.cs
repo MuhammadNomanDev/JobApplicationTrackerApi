@@ -100,5 +100,17 @@ public class JobApplicationsController : ControllerBase
         await _mediator.Send(command);
         return NoContent();
     }
-    
+
+    /// <summary>
+    /// Delete a job application
+    /// </summary>
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteJobApplication(Guid id)
+    {
+        await _mediator.Send(new DeleteJobApplicationCommand(id));
+        return NoContent();
+    }
+
 }
