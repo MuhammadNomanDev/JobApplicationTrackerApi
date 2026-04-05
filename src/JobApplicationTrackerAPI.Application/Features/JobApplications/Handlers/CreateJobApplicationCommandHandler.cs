@@ -1,5 +1,6 @@
 using JobApplicationTracker.Application.Features.JobApplications.Commands;
 using JobApplicationTracker.Application.Interfaces;
+using JobApplicationTracker.Application.Interfaces.Services;
 using JobApplicationTracker.Domain.Entities;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
@@ -9,10 +10,12 @@ namespace JobApplicationTracker.Application.Features.JobApplications.Handlers;
 public class CreateJobApplicationCommandHandler : IRequestHandler<CreateJobApplicationCommand, Guid>
 {
     private readonly IAppDbContext _context;
+    private readonly ICacheService _cacheService;
 
-    public CreateJobApplicationCommandHandler(IAppDbContext context)
+    public CreateJobApplicationCommandHandler(IAppDbContext context, ICacheService cacheService)
     {
         _context = context;
+        _cacheService = cacheService;
     }
 
     public async Task<Guid> Handle(CreateJobApplicationCommand request, CancellationToken cancellationToken)
@@ -44,6 +47,9 @@ public class CreateJobApplicationCommandHandler : IRequestHandler<CreateJobAppli
 
         await _context.JobApplications.AddAsync(jobApplication, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
+
+        // Invalidate cache
+        await _cacheService.RemoveByPrefixAsync("jobapps:", cancellationToken);
 
         return jobApplication.Id;
     }
