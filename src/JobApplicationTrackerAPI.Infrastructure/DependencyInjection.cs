@@ -35,6 +35,8 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IBlobStorageService, BlobStorageService>();
+        services.AddScoped<IMessagePublisher, ServiceBusMessagePublisher>();
+        services.AddHostedService<NotificationConsumer>();
 
         return services;
     }
