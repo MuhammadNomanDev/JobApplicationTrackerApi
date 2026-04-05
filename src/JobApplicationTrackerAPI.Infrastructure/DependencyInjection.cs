@@ -37,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<IBlobStorageService, BlobStorageService>();
         services.AddScoped<IMessagePublisher, ServiceBusMessagePublisher>();
         services.AddHostedService<NotificationConsumer>();
+        services.AddSingleton<ICacheService, RedisCacheService>();
 
         return services;
     }
