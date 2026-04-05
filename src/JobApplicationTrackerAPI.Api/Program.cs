@@ -3,10 +3,25 @@ using JobApplicationTracker.Application;
 using JobApplicationTracker.Application.Settings;
 using JobApplicationTracker.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ── Serilog Configuration ──────────────────────────────────────────────────
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/jobtracker-.txt", rollingInterval: RollingInterval.Day)
+    .Enrich.FromLogContext()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // ── Services ─────────────────────────────────────────────────────────────
 
@@ -84,12 +99,29 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Health Checks
+builder.Services.AddHealthChecks()
+    .AddSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")!,
+        name: "sqlserver",
+        tags: new[] { "db", "sqlserver" });
+
 // ── Pipeline ──────────────────────────────────────────────────────────────
 
 var app = builder.Build();
 
 // Global exception handler must be first
 app.UseGlobalExceptionHandler();
+
+// Correlation ID middleware
+app.Use(async (context, next) =>
+{
+    var correlationId = context.Request.Headers["X-Correlation-Id"].FirstOrDefault() ?? Guid.NewGuid().ToString();
+    context.Response.Headers["X-Correlation-Id"] = correlationId;
+    context.Items["CorrelationId"] = correlationId;
+    Serilog.Context.LogContext.PushProperty("CorrelationId", correlationId);
+    await next();
+});
 
 if (app.Environment.IsDevelopment())
 {
@@ -103,6 +135,27 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Health check endpoint
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var response = new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(e => new
+            {
+                name = e.Key,
+                status = e.Value.Status.ToString(),
+                description = e.Value.Description
+            }),
+            duration = report.TotalDuration
+        };
+        await context.Response.WriteAsJsonAsync(response);
+    }
+});
 
 app.MapControllers();
 
