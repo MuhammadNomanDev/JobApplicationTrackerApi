@@ -160,3 +160,5 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
