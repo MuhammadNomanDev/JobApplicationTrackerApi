@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__DefaultConnection=Server=db;Database=JobApplicationTracker;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+      - AzureBlobStorage__ConnectionString=UseDevelopmentStorage=true
+      - AzureServiceBus__ConnectionString=
+      - Redis__ConnectionString=redis:6379
+      - Jwt__Key=ThisIsASecretKeyForJwtTokenGeneration12345!
+      - Jwt__Issuer=JobApplicationTrackerAPI
+      - Jwt__Audience=JobApplicationTrackerUsers
+      - Jwt__TokenExpirationMinutes=60
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+volumes:
+  sql-data:
+  redis-data:
+
+networks:
+  app-network:
+    driver: bridge
