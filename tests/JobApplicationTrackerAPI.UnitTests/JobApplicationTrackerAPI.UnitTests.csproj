@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../src/JobApplicationTrackerAPI.Api/JobApplicationTrackerAPI.Api.csproj" />
     <ProjectReference Include="../../src/JobApplicationTrackerAPI.Application/JobApplicationTrackerAPI.Application.csproj" />
     <ProjectReference Include="../../src/JobApplicationTrackerAPI.Domain/JobApplicationTrackerAPI.Domain.csproj" />
   </ItemGroup>
