@@ -97,7 +97,7 @@ jobs:
     name: Deploy to Azure
     needs: docker
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && secrets.AZURE_CREDENTIALS != ''
 
     steps:
     - name: Azure Login
