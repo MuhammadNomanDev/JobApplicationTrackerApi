@@ -24,10 +24,21 @@ public class GetAllJobApplicationsQueryHandler : IRequestHandler<GetAllJobApplic
     {
         var cacheKey = $"{CacheKeyPrefix}{request.Page}:{request.PageSize}:{request.Status}:{request.SearchTerm}";
 
-        var cached = await _cacheService.GetAsync<PagedResult<JobApplicationDto>>(cacheKey, cancellationToken);
-        if (cached != null)
-            return cached;
+        // Cache-aside via HybridCache: concurrent requests for the same key
+        // share one factory execution (stampede protection). The "jobapps"
+        // tag lets write handlers invalidate the whole group at once.
+        return await _cacheService.GetOrCreateAsync(
+            cacheKey,
+            ct => LoadPageAsync(request, ct),
+            CacheTtl,
+            tags: ["jobapps"],
+            cancellationToken);
+    }
 
+    private async Task<PagedResult<JobApplicationDto>> LoadPageAsync(
+        GetAllJobApplicationsQuery request,
+        CancellationToken cancellationToken)
+    {
         var query = _context.JobApplications.AsQueryable();
 
         if (request.Status.HasValue)
@@ -62,8 +73,6 @@ public class GetAllJobApplicationsQueryHandler : IRequestHandler<GetAllJobApplic
             .ToListAsync(cancellationToken);
 
         var result = new PagedResult<JobApplicationDto>(items, request.Page, request.PageSize, totalCount);
-
-        await _cacheService.SetAsync(cacheKey, result, CacheTtl, cancellationToken);
 
         return result;
     }
