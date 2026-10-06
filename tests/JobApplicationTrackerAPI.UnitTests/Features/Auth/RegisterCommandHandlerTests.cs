@@ -6,9 +6,8 @@ using JobApplicationTracker.Application.Interfaces;
 using JobApplicationTracker.Application.Interfaces.Services;
 using JobApplicationTracker.Domain.Entities;
 using JobApplicationTracker.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using JobApplicationTrackerAPI.UnitTests.Helpers;
 using Moq;
-using System.Linq.Expressions;
 
 namespace JobApplicationTrackerAPI.UnitTests.Features.Auth;
 
@@ -40,7 +39,7 @@ public class RegisterCommandHandlerTests
     {
         // Arrange
         var command = new RegisterCommand("John", "Doe", "john@example.com", "Password123!");
-        SetupUsersAsync(false, null);
+        SetupUsersAsync(exists: false);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -57,7 +56,7 @@ public class RegisterCommandHandlerTests
     public async Task Handle_DuplicateEmail_ShouldThrowValidationException()
     {
         // Arrange
-        SetupUsersAsync(true, null);
+        SetupUsersAsync(exists: true);
 
         var command = new RegisterCommand("John", "Doe", "john@example.com", "Password123!");
 
@@ -67,11 +66,14 @@ public class RegisterCommandHandlerTests
             .WithMessage("Email already exists.");
     }
 
-    private void SetupUsersAsync(bool exists, User? user)
+    private void SetupUsersAsync(bool exists)
     {
-        _mockContext.Setup(x => x.Users.AnyAsync(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(exists);
-        _mockContext.Setup(x => x.Users.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(user);
+        // NOTE: EF Core's AnyAsync is a static extension method and cannot be
+        // mocked with Moq. Mock the DbSet<User> itself instead, so the real
+        // extension method executes against the in-memory data.
+        var users = exists
+            ? new[] { new User("John", "Doe", JobApplicationTracker.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password") }
+            : Enumerable.Empty<User>();
+        _mockContext.Setup(x => x.Users).Returns(MockDbSetHelper.Create(users).Object);
     }
 }
