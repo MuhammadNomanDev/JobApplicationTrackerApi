@@ -1,0 +1,20 @@
+<Project>
+  <!-- Chain to the repo-root props (MSBuild only imports the NEAREST
+       Directory.Build.props, so without this the root settings such as
+       TargetFramework and central package management would be lost). -->
+  <Import Project="../Directory.Build.props" />
+
+  <!--
+    P1/M1e: every test run collects Cobertura line coverage with honest
+    exclusions baked in, so local runs and CI measure the same thing.
+    EF Core migrations (generated code) and build output are excluded;
+    the test assemblies' own helpers/fixtures are excluded too.
+  -->
+  <PropertyGroup>
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <CoverletOutput>$(MSBuildProjectDirectory)/TestResults/coverage</CoverletOutput>
+    <ExcludeByFile>**/Migrations/**/*,**/obj/**/*</ExcludeByFile>
+    <Exclude>[JobApplicationTrackerAPI.UnitTests]*,[JobApplicationTrackerAPI.IntegrationTests]*</Exclude>
+  </PropertyGroup>
+</Project>

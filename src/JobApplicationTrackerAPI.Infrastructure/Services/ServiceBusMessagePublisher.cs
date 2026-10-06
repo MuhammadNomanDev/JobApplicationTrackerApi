@@ -1,7 +1,7 @@
+using System.Text.Json;
 using Azure.Messaging.ServiceBus;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
-using System.Text.Json;
 
 namespace JobApplicationTrackerAPI.Infrastructure.Services;
 

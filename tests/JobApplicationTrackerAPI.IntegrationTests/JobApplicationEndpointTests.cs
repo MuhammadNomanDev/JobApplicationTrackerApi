@@ -35,48 +35,9 @@ public class JobApplicationEndpointTests : IClassFixture<WebApplicationFactory<P
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    [Fact(Skip = "Requires a real database; will be re-enabled with Testcontainers SQL Server in P1/M1")]
-    public async Task GetJobApplication_NonExistentId_ShouldReturnNotFound()
-    {
-        // Arrange
-        var client = CreateAuthenticatedClient();
-        var nonExistentId = Guid.NewGuid();
-
-        // Act
-        var response = await client.GetAsync($"/api/jobapplications/{nonExistentId}");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-    [Fact(Skip = "Requires a real database; will be re-enabled with Testcontainers SQL Server in P1/M1")]
-    public async Task UpdateJobApplication_NonExistentId_ShouldReturnNotFound()
-    {
-        // Arrange
-        var client = CreateAuthenticatedClient();
-        var nonExistentId = Guid.NewGuid();
-        var command = new UpdateJobApplicationCommand(nonExistentId, "Company", "Position", null, null);
-
-        // Act
-        var response = await client.PutAsJsonAsync($"/api/jobapplications/{nonExistentId}", command);
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-    [Fact(Skip = "Requires a real database; will be re-enabled with Testcontainers SQL Server in P1/M1")]
-    public async Task DeleteJobApplication_NonExistentId_ShouldReturnNotFound()
-    {
-        // Arrange
-        var client = CreateAuthenticatedClient();
-        var nonExistentId = Guid.NewGuid();
-
-        // Act
-        var response = await client.DeleteAsync($"/api/jobapplications/{nonExistentId}");
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
+    // NOTE (P1/M1e): the 404 tests that used to live here (skipped since P0
+    // for want of a real database) now run against Testcontainers SQL Server
+    // in JobApplicationDbEndpointTests.
 
     private HttpClient CreateAuthenticatedClient()
     {

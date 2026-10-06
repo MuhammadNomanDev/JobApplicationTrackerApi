@@ -3,10 +3,10 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using AwesomeAssertions;
 using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using JobApplicationTrackerAPI.Application.Interfaces.Services;
 
 namespace JobApplicationTrackerAPI.IntegrationTests;
 
