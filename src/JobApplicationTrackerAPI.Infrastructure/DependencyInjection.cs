@@ -37,7 +37,22 @@ public static class DependencyInjection
         services.AddScoped<IBlobStorageService, BlobStorageService>();
         services.AddScoped<IMessagePublisher, ServiceBusMessagePublisher>();
         services.AddHostedService<NotificationConsumer>();
-        services.AddSingleton<ICacheService, RedisCacheService>();
+
+        // HybridCache: in-memory L1 always; Redis L2 when a connection string
+        // is configured (AddStackExchangeRedisCache registers the
+        // IDistributedCache that HybridCache picks up as its L2).
+        // Without Redis the app still caches locally — strictly better than
+        // the old RedisCacheService, which silently no-op'd.
+        services.AddHybridCache();
+
+        var redisConnectionString = configuration["Redis:ConnectionString"];
+        if (!string.IsNullOrWhiteSpace(redisConnectionString))
+        {
+            services.AddStackExchangeRedisCache(options =>
+                options.Configuration = redisConnectionString);
+        }
+
+        services.AddSingleton<ICacheService, HybridCacheService>();
 
         return services;
     }

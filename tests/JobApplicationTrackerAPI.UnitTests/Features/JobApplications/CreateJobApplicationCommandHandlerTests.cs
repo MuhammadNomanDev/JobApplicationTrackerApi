@@ -45,6 +45,6 @@ public class CreateJobApplicationCommandHandlerTests
         result.Should().NotBeEmpty();
         _mockContext.Verify(x => x.JobApplications.AddAsync(It.IsAny<JobApplication>(), It.IsAny<CancellationToken>()), Times.Once);
         _mockContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _mockCacheService.Verify(x => x.RemoveByPrefixAsync("jobapps:", It.IsAny<CancellationToken>()), Times.Once);
+        _mockCacheService.Verify(x => x.RemoveByTagAsync("jobapps", It.IsAny<CancellationToken>()), Times.Once);
     }
 }

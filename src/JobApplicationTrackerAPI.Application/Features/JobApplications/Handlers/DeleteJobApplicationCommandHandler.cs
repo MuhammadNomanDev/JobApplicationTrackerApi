@@ -32,6 +32,6 @@ public class DeleteJobApplicationCommandHandler : IRequestHandler<DeleteJobAppli
         await _context.SaveChangesAsync(cancellationToken);
 
         // Invalidate cache
-        await _cacheService.RemoveByPrefixAsync("jobapps:", cancellationToken);
+        await _cacheService.RemoveByTagAsync("jobapps", cancellationToken);
     }
 }

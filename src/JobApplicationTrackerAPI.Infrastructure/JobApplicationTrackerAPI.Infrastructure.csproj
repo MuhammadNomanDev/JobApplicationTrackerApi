@@ -7,7 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" />
-    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
     <PackageReference Include="Azure.Storage.Blobs" />
     <PackageReference Include="BCrypt.Net-Next" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
