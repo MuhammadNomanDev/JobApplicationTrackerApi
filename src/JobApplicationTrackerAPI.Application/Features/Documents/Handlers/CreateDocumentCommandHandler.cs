@@ -1,10 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using JobApplicationTrackerAPI.Application.Features.Documents.Commands;
 using JobApplicationTrackerAPI.Application.Interfaces;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace JobApplicationTrackerAPI.Application.Features.Documents.Handlers;
 

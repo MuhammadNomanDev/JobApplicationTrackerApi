@@ -1,6 +1,6 @@
 using FluentValidation;
-using MediatR;
 using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
+using MediatR;
 
 namespace JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 

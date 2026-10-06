@@ -3,7 +3,7 @@ namespace JobApplicationTrackerAPI.Domain.ValueObjects;
 public record Email
 {
     public string Value { get; }
-    
+
     private Email(string value) => Value = value;
 
     public static Email Create(string email)

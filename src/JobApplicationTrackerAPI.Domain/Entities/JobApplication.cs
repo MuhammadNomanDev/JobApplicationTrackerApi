@@ -10,10 +10,10 @@ public class JobApplication : BaseEntity
     public decimal? Salary { get; private set; }
     public JobStatus Status { get; private set; } = JobStatus.Draft;
     public DateTime? AppliedDate { get; private set; }
-    
+
     // Foreign key
     public Guid UserId { get; private set; }
-    
+
     // Navigation properties
     public User User { get; private set; } = null!;
     private readonly List<Note> _notes = new();
@@ -24,8 +24,8 @@ public class JobApplication : BaseEntity
     private JobApplication() { } // For EF Core
 
     public JobApplication(
-        string companyName, 
-        string positionTitle, 
+        string companyName,
+        string positionTitle,
         Guid userId)
     {
         CompanyName = companyName;
@@ -34,9 +34,9 @@ public class JobApplication : BaseEntity
     }
 
     public void UpdateDetails(
-        string companyName, 
-        string positionTitle, 
-        string? jobUrl, 
+        string companyName,
+        string positionTitle,
+        string? jobUrl,
         decimal? salary)
     {
         CompanyName = companyName;
@@ -49,10 +49,10 @@ public class JobApplication : BaseEntity
     public void UpdateStatus(JobStatus status)
     {
         Status = status;
-        
+
         if (status == JobStatus.Applied && AppliedDate == null)
             AppliedDate = DateTime.UtcNow;
-            
+
         SetAsUpdated();
     }
 }

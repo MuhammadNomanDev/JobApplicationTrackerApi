@@ -3,10 +3,10 @@ namespace JobApplicationTrackerAPI.Domain.Entities;
 public class Note : BaseEntity
 {
     public string Content { get; private set; } = null!;
-    
+
     // Foreign key
     public Guid JobApplicationId { get; private set; }
-    
+
     // Navigation properties
     public JobApplication JobApplication { get; private set; } = null!;
 

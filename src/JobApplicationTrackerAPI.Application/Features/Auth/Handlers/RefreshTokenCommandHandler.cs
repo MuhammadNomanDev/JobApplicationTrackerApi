@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using FluentValidation;
 using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
 using JobApplicationTrackerAPI.Application.Interfaces;
@@ -5,9 +8,6 @@ using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Entities;
 using JobApplicationTrackerAPI.Domain.Interfaces;
 using MediatR;
-using FluentValidation;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobApplicationTrackerAPI.Application.Features.Auth.Handlers;
