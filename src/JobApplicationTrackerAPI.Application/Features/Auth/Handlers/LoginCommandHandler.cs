@@ -4,7 +4,7 @@ using JobApplicationTracker.Application.Interfaces;
 using JobApplicationTracker.Application.Interfaces.Services;
 using JobApplicationTracker.Domain.Interfaces;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobApplicationTracker.Application.Features.Auth.Handlers;
