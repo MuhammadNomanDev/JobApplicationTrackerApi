@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace JobApplicationTracker.Application.Features.Notes.Commands;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Commands;
 
 public record DeleteNoteCommand(Guid Id) : IRequest;

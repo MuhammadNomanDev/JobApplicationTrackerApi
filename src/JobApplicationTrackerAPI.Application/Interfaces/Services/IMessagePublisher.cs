@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Interfaces.Services;
+namespace JobApplicationTrackerAPI.Application.Interfaces.Services;
 
 public interface IMessagePublisher : IAsyncDisposable
 {

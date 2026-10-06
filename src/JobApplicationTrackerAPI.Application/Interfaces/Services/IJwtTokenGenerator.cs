@@ -1,8 +1,8 @@
-namespace JobApplicationTracker.Application.Interfaces.Services;
+namespace JobApplicationTrackerAPI.Application.Interfaces.Services;
 
 public interface IJwtTokenGenerator
 {
-    string GenerateToken(JobApplicationTracker.Domain.Entities.User user);
+    string GenerateToken(JobApplicationTrackerAPI.Domain.Entities.User user);
     string GenerateRefreshToken();
     int TokenExpirationMinutes { get; }
 }

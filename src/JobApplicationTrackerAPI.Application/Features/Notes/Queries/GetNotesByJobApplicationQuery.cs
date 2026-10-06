@@ -1,6 +1,6 @@
-using JobApplicationTracker.Application.Features.Notes.Responses;
+using JobApplicationTrackerAPI.Application.Features.Notes.Responses;
 using MediatR;
 
-namespace JobApplicationTracker.Application.Features.Notes.Queries;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Queries;
 
 public record GetNotesByJobApplicationQuery(Guid JobApplicationId) : IRequest<IEnumerable<NoteDto>>;

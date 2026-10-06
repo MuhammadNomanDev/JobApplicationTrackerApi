@@ -1,8 +1,8 @@
-using JobApplicationTracker.Application.Features.JobApplications.Responses;
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Responses;
+using JobApplicationTrackerAPI.Domain.Enums;
 using MediatR;
 
-namespace JobApplicationTracker.Application.Features.JobApplications.Queries;
+namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Queries;
 
 public record GetAllJobApplicationsQuery(
     int Page = 1,

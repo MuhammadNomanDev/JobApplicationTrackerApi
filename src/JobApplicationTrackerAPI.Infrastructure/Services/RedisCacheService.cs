@@ -1,9 +1,9 @@
-using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System.Text.Json;
 
-namespace JobApplicationTracker.Infrastructure.Services;
+namespace JobApplicationTrackerAPI.Infrastructure.Services;
 
 public class RedisCacheService : ICacheService
 {
@@ -33,10 +33,13 @@ public class RedisCacheService : ICacheService
         if (!_isConfigured) return default;
 
         var value = await _database.StringGetAsync(key);
-        if (value.IsNullOrEmpty)
+        // Explicit cast: RedisValue converts to both string and ReadOnlySpan<byte>,
+        // which would make the Deserialize overload ambiguous.
+        var raw = (string?)value;
+        if (string.IsNullOrEmpty(raw))
             return default;
 
-        return JsonSerializer.Deserialize<T>(value!);
+        return JsonSerializer.Deserialize<T>(raw);
     }
 
     public async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
@@ -44,7 +47,10 @@ public class RedisCacheService : ICacheService
         if (!_isConfigured) return;
 
         var json = JsonSerializer.Serialize(value);
-        await _database.StringSetAsync(key, json, expiration);
+        // StackExchange.Redis v3 takes an Expiration struct instead of TimeSpan?.
+        // There is an implicit conversion from TimeSpan; Expiration.Default = no expiry.
+        Expiration expiry = expiration.HasValue ? (Expiration)expiration.Value : Expiration.Default;
+        await _database.StringSetAsync(key, json, expiry);
     }
 
     public async Task RemoveAsync(string key, CancellationToken cancellationToken = default)

@@ -2,11 +2,11 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using FluentAssertions;
-using JobApplicationTracker.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
 
 namespace JobApplicationTrackerAPI.IntegrationTests;
 

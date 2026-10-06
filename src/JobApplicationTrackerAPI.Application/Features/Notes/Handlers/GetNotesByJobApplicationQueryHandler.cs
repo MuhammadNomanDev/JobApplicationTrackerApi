@@ -1,10 +1,10 @@
-using JobApplicationTracker.Application.Features.Notes.Queries;
-using JobApplicationTracker.Application.Features.Notes.Responses;
-using JobApplicationTracker.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.Notes.Queries;
+using JobApplicationTrackerAPI.Application.Features.Notes.Responses;
+using JobApplicationTrackerAPI.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobApplicationTracker.Application.Features.Notes.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Handlers;
 
 public class GetNotesByJobApplicationQueryHandler : IRequestHandler<GetNotesByJobApplicationQuery, IEnumerable<NoteDto>>
 {

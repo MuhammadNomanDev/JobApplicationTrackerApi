@@ -1,7 +1,7 @@
-using JobApplicationTracker.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobApplicationTracker.Application.Interfaces;
+namespace JobApplicationTrackerAPI.Application.Interfaces;
 
 public interface IAppDbContext
 {

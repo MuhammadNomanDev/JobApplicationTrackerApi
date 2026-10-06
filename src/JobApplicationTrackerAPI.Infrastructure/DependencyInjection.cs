@@ -1,16 +1,16 @@
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Repositories;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Interfaces;
-using JobApplicationTracker.Infrastructure.Data;
-using JobApplicationTracker.Infrastructure.Persistence;
-using JobApplicationTracker.Infrastructure.Persistence.Repositories;
-using JobApplicationTracker.Infrastructure.Services;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Repositories;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Interfaces;
+using JobApplicationTrackerAPI.Infrastructure.Data;
+using JobApplicationTrackerAPI.Infrastructure.Persistence;
+using JobApplicationTrackerAPI.Infrastructure.Persistence.Repositories;
+using JobApplicationTrackerAPI.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JobApplicationTracker.Infrastructure;
+namespace JobApplicationTrackerAPI.Infrastructure;
 
 public static class DependencyInjection
 {

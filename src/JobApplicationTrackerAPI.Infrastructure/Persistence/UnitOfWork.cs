@@ -1,7 +1,7 @@
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Infrastructure.Data;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Infrastructure.Data;
 
-namespace JobApplicationTracker.Infrastructure.Persistence;
+namespace JobApplicationTrackerAPI.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {

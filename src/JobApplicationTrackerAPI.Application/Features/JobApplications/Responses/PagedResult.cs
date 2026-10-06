@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Features.JobApplications.Responses;
+namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Responses;
 
 public record PagedResult<T>(
     IEnumerable<T> Items,

@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Domain.Entities;
+namespace JobApplicationTrackerAPI.Domain.Entities;
 
 public abstract class BaseEntity
 {
