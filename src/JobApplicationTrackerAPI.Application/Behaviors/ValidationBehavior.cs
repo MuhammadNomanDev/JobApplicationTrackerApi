@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace JobApplicationTracker.Application.Behaviors;
+namespace JobApplicationTrackerAPI.Application.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

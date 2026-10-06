@@ -1,8 +1,8 @@
 using FluentValidation;
 using MediatR;
-using JobApplicationTracker.Application.Features.Auth.Responses;
+using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
 
-namespace JobApplicationTracker.Application.Features.Auth.Commands;
+namespace JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 
 public record LoginCommand(
     string Email,

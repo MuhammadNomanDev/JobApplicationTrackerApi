@@ -3,7 +3,7 @@ using System.Text.Json;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Middleware;
+namespace JobApplicationTrackerAPI.Api.Middleware;
 
 public class GlobalExceptionHandler
 {

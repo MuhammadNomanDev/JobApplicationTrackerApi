@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Features.Auth.Requests;
+namespace JobApplicationTrackerAPI.Application.Features.Auth.Requests;
 
 public record RegisterRequest(
     string FirstName,

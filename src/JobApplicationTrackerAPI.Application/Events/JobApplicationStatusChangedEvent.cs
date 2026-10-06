@@ -1,6 +1,6 @@
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 
-namespace JobApplicationTracker.Application.Events;
+namespace JobApplicationTrackerAPI.Application.Events;
 
 public record JobApplicationStatusChangedEvent(
     Guid JobApplicationId,

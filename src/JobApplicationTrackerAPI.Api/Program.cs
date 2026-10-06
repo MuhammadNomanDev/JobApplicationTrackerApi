@@ -1,7 +1,7 @@
-using JobApplicationTracker.Api.Middleware;
-using JobApplicationTracker.Application;
-using JobApplicationTracker.Application.Settings;
-using JobApplicationTracker.Infrastructure;
+using JobApplicationTrackerAPI.Api.Middleware;
+using JobApplicationTrackerAPI.Application;
+using JobApplicationTrackerAPI.Application.Settings;
+using JobApplicationTrackerAPI.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;

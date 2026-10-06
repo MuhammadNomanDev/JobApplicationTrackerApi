@@ -1,12 +1,12 @@
-using JobApplicationTracker.Application.Features.Documents.Commands;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
+using JobApplicationTrackerAPI.Application.Features.Documents.Commands;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobApplicationTracker.Application.Features.Documents.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.Documents.Handlers;
 
 public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Guid>
 {

@@ -1,6 +1,6 @@
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 
-namespace JobApplicationTracker.Application.Features.Documents.Responses;
+namespace JobApplicationTrackerAPI.Application.Features.Documents.Responses;
 
 public record DocumentDto(
     Guid Id,
