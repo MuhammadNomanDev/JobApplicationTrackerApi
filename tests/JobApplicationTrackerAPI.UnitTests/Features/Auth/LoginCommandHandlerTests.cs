@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using FluentValidation;
 using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 using JobApplicationTrackerAPI.Application.Features.Auth.Handlers;
