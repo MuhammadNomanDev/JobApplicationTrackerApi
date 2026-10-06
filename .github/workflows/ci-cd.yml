@@ -110,7 +110,7 @@ jobs:
 
     - name: Deploy to Azure App Service
       if: env.HAS_AZURE_CREDENTIALS == 'true'
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: job-application-tracker-api
         # NOTE: image now comes from GHCR (see docker job). The App Service needs
