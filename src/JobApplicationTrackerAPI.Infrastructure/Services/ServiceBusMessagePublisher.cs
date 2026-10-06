@@ -1,9 +1,9 @@
 using Azure.Messaging.ServiceBus;
-using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 
-namespace JobApplicationTracker.Infrastructure.Services;
+namespace JobApplicationTrackerAPI.Infrastructure.Services;
 
 public class ServiceBusMessagePublisher : IMessagePublisher
 {

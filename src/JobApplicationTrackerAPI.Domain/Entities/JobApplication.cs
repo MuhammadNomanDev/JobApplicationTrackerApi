@@ -1,11 +1,11 @@
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 
-namespace JobApplicationTracker.Domain.Entities;
+namespace JobApplicationTrackerAPI.Domain.Entities;
 
 public class JobApplication : BaseEntity
 {
-    public string CompanyName { get; private set; }
-    public string PositionTitle { get; private set; }
+    public string CompanyName { get; private set; } = null!;
+    public string PositionTitle { get; private set; } = null!;
     public string? JobUrl { get; private set; }
     public decimal? Salary { get; private set; }
     public JobStatus Status { get; private set; } = JobStatus.Draft;

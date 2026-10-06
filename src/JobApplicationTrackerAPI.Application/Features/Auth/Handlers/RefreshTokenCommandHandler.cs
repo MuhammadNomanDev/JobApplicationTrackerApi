@@ -1,16 +1,16 @@
-using JobApplicationTracker.Application.Features.Auth.Commands;
-using JobApplicationTracker.Application.Features.Auth.Responses;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Domain.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Interfaces;
 using MediatR;
 using FluentValidation;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobApplicationTracker.Application.Features.Auth.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.Auth.Handlers;
 
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, AuthResponse>
 {

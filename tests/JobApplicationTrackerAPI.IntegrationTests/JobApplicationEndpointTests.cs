@@ -2,11 +2,11 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using FluentAssertions;
-using JobApplicationTracker.Application.Features.JobApplications.Commands;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Domain.Enums;
-using JobApplicationTracker.Domain.ValueObjects;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 

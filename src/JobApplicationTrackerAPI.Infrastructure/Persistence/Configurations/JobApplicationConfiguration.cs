@@ -1,8 +1,8 @@
-using JobApplicationTracker.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobApplicationTracker.Infrastructure.Persistence.Configurations;
+namespace JobApplicationTrackerAPI.Infrastructure.Persistence.Configurations;
 
 public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplication>
 {

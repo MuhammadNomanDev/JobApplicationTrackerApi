@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Features.Auth.Responses;
+namespace JobApplicationTrackerAPI.Application.Features.Auth.Responses;
 
 public record AuthResponse(
     string Token,

@@ -2,10 +2,10 @@ using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
-using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace JobApplicationTracker.Infrastructure.Services;
+namespace JobApplicationTrackerAPI.Infrastructure.Services;
 
 public class BlobStorageService : IBlobStorageService
 {

@@ -3,9 +3,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
-using JobApplicationTracker.Application.Events;
+using JobApplicationTrackerAPI.Application.Events;
 
-namespace JobApplicationTracker.Infrastructure.Services;
+namespace JobApplicationTrackerAPI.Infrastructure.Services;
 
 /// <summary>
 /// Background service that consumes messages from Azure Service Bus queue.

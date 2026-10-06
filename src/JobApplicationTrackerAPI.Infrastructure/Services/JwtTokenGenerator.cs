@@ -1,6 +1,6 @@
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Application.Settings;
-using JobApplicationTracker.Domain.Entities;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Application.Settings;
+using JobApplicationTrackerAPI.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace JobApplicationTracker.Infrastructure.Services;
+namespace JobApplicationTrackerAPI.Infrastructure.Services;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {

@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Domain.ValueObjects;
+namespace JobApplicationTrackerAPI.Domain.ValueObjects;
 
 public record Email
 {

@@ -1,11 +1,11 @@
-using JobApplicationTracker.Application.Features.JobApplications.Commands;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobApplicationTracker.Application.Features.JobApplications.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Handlers;
 
 public class DeleteJobApplicationCommandHandler : IRequestHandler<DeleteJobApplicationCommand>
 {

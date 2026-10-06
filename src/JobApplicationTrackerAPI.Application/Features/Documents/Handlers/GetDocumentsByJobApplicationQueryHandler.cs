@@ -1,10 +1,10 @@
-using JobApplicationTracker.Application.Features.Documents.Queries;
-using JobApplicationTracker.Application.Features.Documents.Responses;
-using JobApplicationTracker.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.Documents.Queries;
+using JobApplicationTrackerAPI.Application.Features.Documents.Responses;
+using JobApplicationTrackerAPI.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobApplicationTracker.Application.Features.Documents.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.Documents.Handlers;
 
 public class GetDocumentsByJobApplicationQueryHandler : IRequestHandler<GetDocumentsByJobApplicationQuery, IEnumerable<DocumentDto>>
 {

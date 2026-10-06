@@ -1,10 +1,10 @@
 using FluentAssertions;
-using JobApplicationTracker.Application.Features.JobApplications.Commands;
-using JobApplicationTracker.Application.Features.JobApplications.Handlers;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Handlers;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 

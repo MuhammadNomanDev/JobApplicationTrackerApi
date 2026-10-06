@@ -1,11 +1,11 @@
 using FluentAssertions;
 using FluentValidation;
-using JobApplicationTracker.Application.Features.Auth.Commands;
-using JobApplicationTracker.Application.Features.Auth.Handlers;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Domain.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Features.Auth.Handlers;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Interfaces;
 using JobApplicationTrackerAPI.UnitTests.Helpers;
 using Moq;
 
@@ -37,7 +37,7 @@ public class LoginCommandHandlerTests
     public async Task Handle_ValidCredentials_ShouldReturnAuthResponse()
     {
         // Arrange
-        var user = new User("John", "Doe", JobApplicationTracker.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password");
+        var user = new User("John", "Doe", JobApplicationTrackerAPI.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password");
         SetupUsersAsync(user, true);
 
         var command = new LoginCommand("john@example.com", "Password123!");
@@ -69,7 +69,7 @@ public class LoginCommandHandlerTests
     public async Task Handle_InvalidPassword_ShouldThrowValidationException()
     {
         // Arrange
-        var user = new User("John", "Doe", JobApplicationTracker.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password");
+        var user = new User("John", "Doe", JobApplicationTrackerAPI.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password");
         SetupUsersAsync(user, false);
 
         var command = new LoginCommand("john@example.com", "WrongPassword");

@@ -1,13 +1,13 @@
-using JobApplicationTracker.Api.Models;
-using JobApplicationTracker.Application.Features.Documents.Commands;
-using JobApplicationTracker.Application.Features.Documents.Queries;
-using JobApplicationTracker.Application.Features.Documents.Responses;
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Api.Models;
+using JobApplicationTrackerAPI.Application.Features.Documents.Commands;
+using JobApplicationTrackerAPI.Application.Features.Documents.Queries;
+using JobApplicationTrackerAPI.Application.Features.Documents.Responses;
+using JobApplicationTrackerAPI.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers;
+namespace JobApplicationTrackerAPI.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

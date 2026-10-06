@@ -1,11 +1,11 @@
-using JobApplicationTracker.Application.Features.JobApplications.Queries;
-using JobApplicationTracker.Application.Features.JobApplications.Responses;
-using JobApplicationTracker.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Queries;
+using JobApplicationTrackerAPI.Application.Features.JobApplications.Responses;
+using JobApplicationTrackerAPI.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobApplicationTracker.Application.Features.JobApplications.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Handlers;
 
 public class GetJobApplicationQueryHandler : IRequestHandler<GetJobApplicationQuery, JobApplicationDto>
 {

@@ -1,7 +1,7 @@
-using JobApplicationTracker.Domain.Interfaces;
+using JobApplicationTrackerAPI.Domain.Interfaces;
 using BC = BCrypt.Net.BCrypt;
 
-namespace JobApplicationTracker.Infrastructure.Services;
+namespace JobApplicationTrackerAPI.Infrastructure.Services;
 
 public class PasswordHasher : IPasswordHasher
 {

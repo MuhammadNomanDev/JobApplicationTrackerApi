@@ -1,11 +1,11 @@
 using FluentAssertions;
 using FluentValidation;
-using JobApplicationTracker.Application.Features.Auth.Commands;
-using JobApplicationTracker.Application.Features.Auth.Handlers;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Application.Interfaces.Services;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Domain.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Features.Auth.Handlers;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Interfaces.Services;
+using JobApplicationTrackerAPI.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Interfaces;
 using JobApplicationTrackerAPI.UnitTests.Helpers;
 using Moq;
 
@@ -72,7 +72,7 @@ public class RegisterCommandHandlerTests
         // mocked with Moq. Mock the DbSet<User> itself instead, so the real
         // extension method executes against the in-memory data.
         var users = exists
-            ? new[] { new User("John", "Doe", JobApplicationTracker.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password") }
+            ? new[] { new User("John", "Doe", JobApplicationTrackerAPI.Domain.ValueObjects.Email.Create("john@example.com"), "hashed-password") }
             : Enumerable.Empty<User>();
         _mockContext.Setup(x => x.Users).Returns(MockDbSetHelper.Create(users).Object);
     }

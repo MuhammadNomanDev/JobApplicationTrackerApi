@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace JobApplicationTracker.Api.Models;
+namespace JobApplicationTrackerAPI.Api.Models;
 
 public class ApiResponse<T>
 {

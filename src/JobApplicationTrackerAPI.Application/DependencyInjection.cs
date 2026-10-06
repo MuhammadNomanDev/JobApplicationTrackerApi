@@ -1,9 +1,9 @@
 using FluentValidation;
-using JobApplicationTracker.Application.Behaviors;
+using JobApplicationTrackerAPI.Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JobApplicationTracker.Application;
+namespace JobApplicationTrackerAPI.Application;
 
 public static class DependencyInjection
 {

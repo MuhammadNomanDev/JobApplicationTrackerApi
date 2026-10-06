@@ -1,7 +1,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace JobApplicationTracker.Application.Features.Notes.Commands;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Commands;
 
 public record UpdateNoteCommand(
     Guid Id,

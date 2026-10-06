@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Settings;
+namespace JobApplicationTrackerAPI.Application.Settings;
 
 public class JwtSettings
 {

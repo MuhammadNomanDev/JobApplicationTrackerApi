@@ -1,6 +1,6 @@
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 
-namespace JobApplicationTracker.Application.Features.JobApplications.Responses;
+namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Responses;
 
 public record JobApplicationDto(
     Guid Id,

@@ -1,11 +1,11 @@
-using JobApplicationTracker.Application.Features.Notes.Commands;
-using JobApplicationTracker.Application.Interfaces;
-using JobApplicationTracker.Domain.Entities;
+using JobApplicationTrackerAPI.Application.Features.Notes.Commands;
+using JobApplicationTrackerAPI.Application.Interfaces;
+using JobApplicationTrackerAPI.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobApplicationTracker.Application.Features.Notes.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Handlers;
 
 public class CreateNoteCommandHandler : IRequestHandler<CreateNoteCommand, Guid>
 {

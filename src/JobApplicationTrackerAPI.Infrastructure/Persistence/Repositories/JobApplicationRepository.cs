@@ -1,9 +1,9 @@
-using JobApplicationTracker.Application.Interfaces.Repositories;
-using JobApplicationTracker.Domain.Entities;
-using JobApplicationTracker.Infrastructure.Data;
+using JobApplicationTrackerAPI.Application.Interfaces.Repositories;
+using JobApplicationTrackerAPI.Domain.Entities;
+using JobApplicationTrackerAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobApplicationTracker.Infrastructure.Persistence.Repositories;
+namespace JobApplicationTrackerAPI.Infrastructure.Persistence.Repositories;
 
 public class JobApplicationRepository : IJobApplicationRepository
 {

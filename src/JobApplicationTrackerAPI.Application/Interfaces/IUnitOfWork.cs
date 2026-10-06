@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Interfaces;
+namespace JobApplicationTrackerAPI.Application.Interfaces;
 
 public interface IUnitOfWork
 {

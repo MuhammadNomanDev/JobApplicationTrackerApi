@@ -1,8 +1,8 @@
 using FluentValidation;
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 using MediatR;
 
-namespace JobApplicationTracker.Application.Features.JobApplications.Commands;
+namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
 
 public record UpdateJobApplicationStatusCommand(
     Guid Id,

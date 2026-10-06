@@ -1,10 +1,10 @@
-using JobApplicationTracker.Application.Features.Notes.Commands;
-using JobApplicationTracker.Application.Interfaces;
+using JobApplicationTrackerAPI.Application.Features.Notes.Commands;
+using JobApplicationTrackerAPI.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace JobApplicationTracker.Application.Features.Notes.Handlers;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Handlers;
 
 public class DeleteNoteCommandHandler : IRequestHandler<DeleteNoteCommand>
 {

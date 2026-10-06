@@ -1,10 +1,10 @@
-using JobApplicationTracker.Api.Models;
-using JobApplicationTracker.Application.Features.Auth.Commands;
-using JobApplicationTracker.Application.Features.Auth.Responses;
+using JobApplicationTrackerAPI.Api.Models;
+using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobApplicationTracker.Api.Controllers;
+namespace JobApplicationTrackerAPI.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

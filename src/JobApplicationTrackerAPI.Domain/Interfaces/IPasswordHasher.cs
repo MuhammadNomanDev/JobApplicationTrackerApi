@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Domain.Interfaces;
+namespace JobApplicationTrackerAPI.Domain.Interfaces;
 
 public interface IPasswordHasher
 {

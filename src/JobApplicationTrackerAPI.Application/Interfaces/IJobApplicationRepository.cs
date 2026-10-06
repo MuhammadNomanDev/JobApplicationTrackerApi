@@ -1,6 +1,6 @@
-using JobApplicationTracker.Domain.Entities;
+using JobApplicationTrackerAPI.Domain.Entities;
 
-namespace JobApplicationTracker.Application.Interfaces.Repositories;
+namespace JobApplicationTrackerAPI.Application.Interfaces.Repositories;
 
 public interface IJobApplicationRepository
 {

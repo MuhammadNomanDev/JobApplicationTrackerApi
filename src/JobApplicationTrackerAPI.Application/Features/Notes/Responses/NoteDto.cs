@@ -1,4 +1,4 @@
-namespace JobApplicationTracker.Application.Features.Notes.Responses;
+namespace JobApplicationTrackerAPI.Application.Features.Notes.Responses;
 
 public record NoteDto(
     Guid Id,

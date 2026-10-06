@@ -1,11 +1,11 @@
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 
-namespace JobApplicationTracker.Domain.Entities;
+namespace JobApplicationTrackerAPI.Domain.Entities;
 
 public class Document : BaseEntity
 {
-    public string FileName { get; private set; }
-    public string FileUrl { get; private set; }
+    public string FileName { get; private set; } = null!;
+    public string FileUrl { get; private set; } = null!;
     public DocumentType DocumentType { get; private set; }
     
     // Foreign key

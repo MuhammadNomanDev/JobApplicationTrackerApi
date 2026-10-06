@@ -1,5 +1,5 @@
 using FluentValidation.TestHelper;
-using JobApplicationTracker.Application.Features.Auth.Commands;
+using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 
 namespace JobApplicationTrackerAPI.UnitTests.Features.Auth;
 

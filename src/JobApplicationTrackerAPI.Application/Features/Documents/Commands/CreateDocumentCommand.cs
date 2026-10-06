@@ -1,9 +1,9 @@
 using FluentValidation;
-using JobApplicationTracker.Domain.Enums;
+using JobApplicationTrackerAPI.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace JobApplicationTracker.Application.Features.Documents.Commands;
+namespace JobApplicationTrackerAPI.Application.Features.Documents.Commands;
 
 public record CreateDocumentCommand(
     Guid JobApplicationId,
