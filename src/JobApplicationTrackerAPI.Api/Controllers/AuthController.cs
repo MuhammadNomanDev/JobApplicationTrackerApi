@@ -3,11 +3,13 @@ using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace JobApplicationTrackerAPI.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[EnableRateLimiting("auth")]
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;

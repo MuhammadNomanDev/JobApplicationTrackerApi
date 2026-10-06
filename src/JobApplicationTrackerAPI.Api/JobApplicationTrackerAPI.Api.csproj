@@ -2,17 +2,18 @@
 
   <ItemGroup>
     <!-- NOTE: Microsoft.AspNetCore.OpenApi was referenced but never used in code.
-         Removed in P1/M1a; P1/M1c re-adds it when wiring the built-in OpenAPI + Scalar UI. -->
+         Removed in P1/M1a; re-added in P1/M1c with the built-in OpenAPI + Scalar UI. -->
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
 

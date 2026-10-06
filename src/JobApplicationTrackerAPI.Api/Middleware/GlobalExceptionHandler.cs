@@ -38,11 +38,14 @@ public class GlobalExceptionHandler
         _logger.LogError(exception, "An unhandled exception occurred: {Message}", exception.Message);
 
         var response = context.Response;
-        response.ContentType = "application/json";
+        // RFC 9457: problem responses use the application/problem+json media type,
+        // and every problem carries a stable "type" URI identifying the problem kind.
+        response.ContentType = "application/problem+json";
 
         var problemDetails = new ProblemDetails
         {
             Status = (int)HttpStatusCode.InternalServerError,
+            Type = "https://httpstatuses.com/500",
             Title = "An unexpected error occurred",
             Detail = _environment.IsDevelopment() ? exception.Message : "An internal server error occurred."
         };
@@ -52,6 +55,7 @@ public class GlobalExceptionHandler
             case ValidationException validationEx:
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 problemDetails.Status = (int)HttpStatusCode.BadRequest;
+                problemDetails.Type = "https://httpstatuses.com/400";
                 problemDetails.Title = "Validation Error";
                 problemDetails.Detail = "One or more validation errors occurred.";
                 problemDetails.Extensions["errors"] = validationEx.Errors
@@ -62,6 +66,7 @@ public class GlobalExceptionHandler
             case UnauthorizedAccessException:
                 response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 problemDetails.Status = (int)HttpStatusCode.Unauthorized;
+                problemDetails.Type = "https://httpstatuses.com/401";
                 problemDetails.Title = "Unauthorized";
                 problemDetails.Detail = "You are not authorized to access this resource.";
                 break;
@@ -69,6 +74,7 @@ public class GlobalExceptionHandler
             case KeyNotFoundException:
                 response.StatusCode = (int)HttpStatusCode.NotFound;
                 problemDetails.Status = (int)HttpStatusCode.NotFound;
+                problemDetails.Type = "https://httpstatuses.com/404";
                 problemDetails.Title = "Not Found";
                 problemDetails.Detail = exception.Message;
                 break;

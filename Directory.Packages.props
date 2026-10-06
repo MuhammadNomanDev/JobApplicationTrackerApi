@@ -17,6 +17,7 @@
          majors past 12.x (commercial line) per the ADR. -->
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
     <!-- Removed in P1/M1a: referenced but unused; re-added in P1/M1c with Scalar. -->
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.12" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
@@ -28,11 +29,8 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.17.14" />
     <PackageVersion Include="StackExchange.Redis" Version="3.3.1" />
-    <!-- Pinned: Swashbuckle is removed in P1/M1c (replaced by Microsoft.AspNetCore.OpenApi + Scalar).
-         Bumping to 10.x would require migrating to the Microsoft.OpenApi v2 reference
-         model for zero lasting benefit, so it stays at 6.4.0 until its removal. -->
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
