@@ -10,8 +10,11 @@
     <PackageVersion Include="Azure.Storage.Blobs" Version="12.30.0" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.2.1" />
     <PackageVersion Include="coverlet.collector" Version="10.1.0" />
-    <PackageVersion Include="FluentAssertions" Version="6.12.0" />
+    <!-- ADR-002: migrated from FluentAssertions 6.12.0 (project went commercial at v8). -->
+    <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <!-- ADR-001: pinned at 12.2.0, the last Apache-2.0 version. Decline Dependabot
+         majors past 12.x (commercial line) per the ADR. -->
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
     <!-- Removed in P1/M1a: referenced but unused; re-added in P1/M1c with Scalar. -->

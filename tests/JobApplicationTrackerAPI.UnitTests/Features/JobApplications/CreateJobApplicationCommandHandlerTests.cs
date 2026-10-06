@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
 using JobApplicationTrackerAPI.Application.Features.JobApplications.Handlers;
 using JobApplicationTrackerAPI.Application.Interfaces;
