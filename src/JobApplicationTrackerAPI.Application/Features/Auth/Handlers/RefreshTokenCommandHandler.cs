@@ -5,7 +5,7 @@ using JobApplicationTracker.Application.Interfaces.Services;
 using JobApplicationTracker.Domain.Entities;
 using JobApplicationTracker.Domain.Interfaces;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;

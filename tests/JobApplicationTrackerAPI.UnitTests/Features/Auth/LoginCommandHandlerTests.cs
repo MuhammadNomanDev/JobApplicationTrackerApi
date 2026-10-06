@@ -6,9 +6,8 @@ using JobApplicationTracker.Application.Interfaces;
 using JobApplicationTracker.Application.Interfaces.Services;
 using JobApplicationTracker.Domain.Entities;
 using JobApplicationTracker.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using JobApplicationTrackerAPI.UnitTests.Helpers;
 using Moq;
-using System.Linq.Expressions;
 
 namespace JobApplicationTrackerAPI.UnitTests.Features.Auth;
 
@@ -83,8 +82,11 @@ public class LoginCommandHandlerTests
 
     private void SetupUsersAsync(User? user, bool passwordValid)
     {
-        _mockContext.Setup(x => x.Users.FirstOrDefaultAsync(It.IsAny<Expression<Func<User, bool>>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(user);
+        // NOTE: EF Core's FirstOrDefaultAsync is a static extension method and
+        // cannot be mocked with Moq. Mock the DbSet<User> itself instead, so the
+        // real extension method executes against the in-memory data.
+        var users = user is null ? Enumerable.Empty<User>() : new[] { user };
+        _mockContext.Setup(x => x.Users).Returns(MockDbSetHelper.Create(users).Object);
         if (user != null)
         {
             _mockPasswordHasher.Setup(x => x.VerifyPassword(user.PasswordHash, It.IsAny<string>())).Returns(passwordValid);

@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using JobApplicationTracker.Application.Features.Auth.Commands;
 using JobApplicationTracker.Application.Features.Auth.Responses;
 using JobApplicationTracker.Application.Interfaces;

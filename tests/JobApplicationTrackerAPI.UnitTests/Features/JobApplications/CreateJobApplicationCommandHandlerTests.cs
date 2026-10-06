@@ -3,7 +3,9 @@ using JobApplicationTracker.Application.Features.JobApplications.Commands;
 using JobApplicationTracker.Application.Features.JobApplications.Handlers;
 using JobApplicationTracker.Application.Interfaces;
 using JobApplicationTracker.Application.Interfaces.Services;
+using JobApplicationTracker.Domain.Entities;
 using JobApplicationTracker.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace JobApplicationTrackerAPI.UnitTests.Features.JobApplications;
@@ -18,6 +20,9 @@ public class CreateJobApplicationCommandHandlerTests
     {
         _mockContext = new Mock<IAppDbContext>();
         _mockCacheService = new Mock<ICacheService>();
+        // IAppDbContext.JobApplications must return a mock DbSet; otherwise the
+        // handler's AddAsync call throws NullReferenceException.
+        _mockContext.Setup(x => x.JobApplications).Returns(new Mock<DbSet<JobApplication>>().Object);
         _handler = new CreateJobApplicationCommandHandler(_mockContext.Object, _mockCacheService.Object);
     }
 
@@ -38,7 +43,7 @@ public class CreateJobApplicationCommandHandlerTests
 
         // Assert
         result.Should().NotBeEmpty();
-        _mockContext.Verify(x => x.JobApplications.AddAsync(It.IsAny<JobApplicationTracker.Domain.Entities.JobApplication>(), It.IsAny<CancellationToken>()), Times.Once);
+        _mockContext.Verify(x => x.JobApplications.AddAsync(It.IsAny<JobApplication>(), It.IsAny<CancellationToken>()), Times.Once);
         _mockContext.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         _mockCacheService.Verify(x => x.RemoveByPrefixAsync("jobapps:", It.IsAny<CancellationToken>()), Times.Once);
     }
