@@ -6,6 +6,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+# Central package management: the props files and SDK pin must exist before
+# restore. Without them, TargetFramework is empty and package versions are
+# unknown (NETSDK1013). Fixed 2026-10-06 after the M1a CPM move broke this.
+COPY ["Directory.Packages.props", "./"]
+COPY ["Directory.Build.props", "./"]
+COPY ["global.json", "./"]
 COPY ["src/JobApplicationTrackerAPI.Api/JobApplicationTrackerAPI.Api.csproj", "src/JobApplicationTrackerAPI.Api/"]
 COPY ["src/JobApplicationTrackerAPI.Application/JobApplicationTrackerAPI.Application.csproj", "src/JobApplicationTrackerAPI.Application/"]
 COPY ["src/JobApplicationTrackerAPI.Domain/JobApplicationTrackerAPI.Domain.csproj", "src/JobApplicationTrackerAPI.Domain/"]

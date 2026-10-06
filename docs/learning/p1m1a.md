@@ -50,3 +50,24 @@ Measured before/after (clean `Release` builds, same machine):
 - Unit tests: 10 passed in ~3.3s → 10 passed in ~3.7s (net10.0).
 - Integration tests: 5 passed + 3 skipped in ~3.8s → 5 passed + 3 skipped in ~4.4s (net10.0).
 No behaviour changed — the numbers confirm the upgrade is mechanical.
+
+## 7. Postscript: the Dockerfile broke too (fixed 2026-10-06)
+
+The first `main` push after M1a failed the **Build & Push Docker Image** job.
+Root cause: the Dockerfile's restore layer copies only the four `.csproj`
+files and then runs `dotnet restore` — but central package management moved
+`TargetFramework` into `Directory.Build.props` and every version into
+`Directory.Packages.props`, and neither file was in the container yet (they
+arrived later via `COPY . .`). Restore failed with
+`NETSDK1013: The TargetFramework value '' was not recognized`.
+
+The lesson: **a Dockerfile's layer order is a contract with the build system.**
+The old layering (csproj-only, then restore) was written when each project was
+self-describing; CPM made the projects depend on repo-root files, so the
+layering had to change with it. The fix copies `Directory.Packages.props`,
+`Directory.Build.props` and `global.json` before the csproj files — verified
+by simulating the exact COPY sequence locally. The container SDK now also
+honours the `global.json` pin, so local, CI and container builds all resolve
+the same SDK. Interview one-liner: *"Central package management is great
+until your Docker restore runs before the props files exist — I fixed the
+layer order and verified it by replaying the Dockerfile's COPY steps."*
