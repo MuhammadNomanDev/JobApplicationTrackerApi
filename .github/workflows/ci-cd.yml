@@ -97,15 +97,19 @@ jobs:
     name: Deploy to Azure
     needs: docker
     runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main' && secrets.AZURE_CREDENTIALS != ''
+    if: github.ref == 'refs/heads/main'
+    env:
+      HAS_AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS != '' }}
 
     steps:
     - name: Azure Login
+      if: env.HAS_AZURE_CREDENTIALS == 'true'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy to Azure App Service
+      if: env.HAS_AZURE_CREDENTIALS == 'true'
       uses: azure/webapps-deploy@v2
       with:
         app-name: job-application-tracker-api
