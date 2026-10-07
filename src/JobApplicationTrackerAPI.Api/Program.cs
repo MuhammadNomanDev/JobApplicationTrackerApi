@@ -30,6 +30,7 @@ builder.Host.UseSerilog();
 // ── Services ─────────────────────────────────────────────────────────────
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 
 // Built-in OpenAPI document generation (.NET 9+); the JWT Bearer scheme that

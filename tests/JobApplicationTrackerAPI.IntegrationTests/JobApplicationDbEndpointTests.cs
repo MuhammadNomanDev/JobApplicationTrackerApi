@@ -9,6 +9,7 @@ using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Entities;
 using JobApplicationTrackerAPI.Domain.Enums;
 using JobApplicationTrackerAPI.Domain.ValueObjects;
+using JobApplicationTrackerAPI.Infrastructure.Data;
 using JobApplicationTrackerAPI.IntegrationTests.Fixtures;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -83,7 +84,7 @@ public class JobApplicationDbEndpointTests : IClassFixture<WebApplicationFactory
     public async Task CreateAndRetrieveJobApplication_RoundTrip()
     {
         // Arrange
-        var client = CreateAuthenticatedClient();
+        var client = await CreateAuthenticatedClientAsync();
         var command = new CreateJobApplicationCommand(
             "Acme Ltd", "Senior .NET Developer", "https://example.com/jobs/1",
             55000m, JobStatus.Applied, DateTime.UtcNow.Date);
@@ -110,7 +111,7 @@ public class JobApplicationDbEndpointTests : IClassFixture<WebApplicationFactory
     public async Task UpdateJobApplication_ExistingId_PersistsChanges()
     {
         // Arrange
-        var client = CreateAuthenticatedClient();
+        var client = await CreateAuthenticatedClientAsync();
         var createResponse = await client.PostAsJsonAsync("/api/jobapplications",
             new CreateJobApplicationCommand("Old Co", "Dev", null, null, JobStatus.Draft, null));
         var created = await createResponse.Content.ReadFromJsonAsync<ApiResponse<Guid>>();
@@ -132,15 +133,41 @@ public class JobApplicationDbEndpointTests : IClassFixture<WebApplicationFactory
     {
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+            new AuthenticationHeaderValue("Bearer", GenerateTestToken(new User(
+                "Test", "User", Email.Create("test@example.com"), "test-hash")));
         return client;
     }
 
-    private string GenerateTestToken()
+    /// <summary>
+    /// Creates a client whose token belongs to a user that actually exists in
+    /// the container database. Required for any test that writes, because
+    /// JobApplications.UserId has a foreign key to Users.
+    /// </summary>
+    private async Task<HttpClient> CreateAuthenticatedClientAsync()
+    {
+        var user = new User(
+            "Test", "User",
+            Email.Create($"test-{Guid.NewGuid():N}@example.com"),
+            "test-hash");
+        user.SetRefreshToken(Guid.NewGuid().ToString("N"), DateTime.UtcNow.AddDays(7));
+
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Users.Add(user);
+            await db.SaveChangesAsync();
+        }
+
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", GenerateTestToken(user));
+        return client;
+    }
+
+    private string GenerateTestToken(User user)
     {
         using var scope = _factory.Services.CreateScope();
         var generator = scope.ServiceProvider.GetRequiredService<IJwtTokenGenerator>();
-        var user = new User("Test", "User", Email.Create("test@example.com"), "test-hash");
         return generator.GenerateToken(user);
     }
 }

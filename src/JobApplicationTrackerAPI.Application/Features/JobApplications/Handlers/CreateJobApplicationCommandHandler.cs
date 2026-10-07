@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
 using JobApplicationTrackerAPI.Application.Interfaces;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace JobApplicationTrackerAPI.Application.Features.JobApplications.Handlers;
 
@@ -11,17 +13,20 @@ public class CreateJobApplicationCommandHandler : IRequestHandler<CreateJobAppli
 {
     private readonly IAppDbContext _context;
     private readonly ICacheService _cacheService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CreateJobApplicationCommandHandler(IAppDbContext context, ICacheService cacheService)
+    public CreateJobApplicationCommandHandler(
+        IAppDbContext context,
+        ICacheService cacheService,
+        IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
         _cacheService = cacheService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Guid> Handle(CreateJobApplicationCommand request, CancellationToken cancellationToken)
     {
-        // TODO: Get current user ID from claims (for now, we'll use a placeholder)
-        // In production, this should come from the JWT token claims
         var userId = GetCurrentUserId();
 
         var jobApplication = new JobApplication(
@@ -54,9 +59,19 @@ public class CreateJobApplicationCommandHandler : IRequestHandler<CreateJobAppli
         return jobApplication.Id;
     }
 
-    private static Guid GetCurrentUserId()
+    private Guid GetCurrentUserId()
     {
-        // TODO: Extract from HttpContext.User claims
-        return Guid.Empty;
+        var idValue = _httpContextAccessor.HttpContext?.User
+            .FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // The endpoint is [Authorize] and our JWTs always carry the user id
+        // (JwtTokenGenerator sets ClaimTypes.NameIdentifier), so a missing or
+        // malformed claim means the token itself is bad.
+        if (string.IsNullOrEmpty(idValue) || !Guid.TryParse(idValue, out var userId))
+        {
+            throw new UnauthorizedAccessException("User ID claim is missing from the token.");
+        }
+
+        return userId;
     }
 }

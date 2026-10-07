@@ -151,8 +151,32 @@ instead of `--check`). That's why the CI snippet pins
 `dotnet-format 5.1.250801`: the flag and the exit code can't drift when the
 tool updates.
 
-## 5. Exercise (15–30 min, do this before merging)
+## 5. Postscript — the journey tests caught a real production bug
 
+The first CI run on this branch failed 2 of the 5 DB tests, and the failure
+was not a test bug — it was a production bug the tests exposed:
+
+- `CreateJobApplicationCommandHandler.GetCurrentUserId()` was a `Guid.Empty`
+  placeholder (marked TODO). Every created job application got
+  `UserId = 00000000-...`, which violates the `FK_JobApplications_Users_UserId`
+  foreign key. **Creating a job application through the API always returned
+  500.** The old test suite never caught it because no test ever wrote to a
+  real database.
+- Fix: the handler now reads `ClaimTypes.NameIdentifier` from the JWT via
+  `IHttpContextAccessor` (registered with `AddHttpContextAccessor()` in
+  `Program.cs`); a missing/malformed claim throws `UnauthorizedAccessException`
+  → 401 via the existing exception-handler mapping. The JWT already carried
+  the user id — the claim was there, nobody read it.
+- The journey tests now seed their token's user into the container database
+  first (unique email per test; `SetRefreshToken` called because the column
+  is non-nullable). This is the honest version of the test: it proves the
+  whole write path, FK and all.
+
+Lesson worth keeping: a test that works around broken production behaviour
+(e.g. seeding a `Guid.Empty` user) enshrines the bug. When a new test fails
+against real infrastructure, suspect the app first.
+
+## 6. Exercise (15–30 min, do this before merging)
 1. Add a fifth architecture test: every type inheriting
    `Microsoft.AspNetCore.Mvc.ControllerBase` across all four assemblies must
    reside in the `JobApplicationTrackerAPI.Api` namespace. Run

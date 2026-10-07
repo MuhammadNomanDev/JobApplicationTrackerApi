@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AwesomeAssertions;
 using JobApplicationTrackerAPI.Application.Features.JobApplications.Commands;
 using JobApplicationTrackerAPI.Application.Features.JobApplications.Handlers;
@@ -5,6 +6,7 @@ using JobApplicationTrackerAPI.Application.Interfaces;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Entities;
 using JobApplicationTrackerAPI.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 
@@ -23,7 +25,18 @@ public class CreateJobApplicationCommandHandlerTests
         // IAppDbContext.JobApplications must return a mock DbSet; otherwise the
         // handler's AddAsync call throws NullReferenceException.
         _mockContext.Setup(x => x.JobApplications).Returns(new Mock<DbSet<JobApplication>>().Object);
-        _handler = new CreateJobApplicationCommandHandler(_mockContext.Object, _mockCacheService.Object);
+
+        // The handler reads the user id from the JWT's NameIdentifier claim.
+        var httpContextAccessor = new Mock<IHttpContextAccessor>();
+        var httpContext = new DefaultHttpContext();
+        httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+        }, "TestAuth"));
+        httpContextAccessor.Setup(x => x.HttpContext).Returns(httpContext);
+
+        _handler = new CreateJobApplicationCommandHandler(
+            _mockContext.Object, _mockCacheService.Object, httpContextAccessor.Object);
     }
 
     [Fact]
