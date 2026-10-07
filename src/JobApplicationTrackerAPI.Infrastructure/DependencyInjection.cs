@@ -1,10 +1,7 @@
 using JobApplicationTrackerAPI.Application.Interfaces;
-using JobApplicationTrackerAPI.Application.Interfaces.Repositories;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Interfaces;
 using JobApplicationTrackerAPI.Infrastructure.Data;
-using JobApplicationTrackerAPI.Infrastructure.Persistence;
-using JobApplicationTrackerAPI.Infrastructure.Persistence.Repositories;
 using JobApplicationTrackerAPI.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,13 +21,6 @@ public static class DependencyInjection
                 b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
         services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
-
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
-        services.AddScoped<IDocumentRepository, DocumentRepository>();
-        services.AddScoped<INoteRepository, NoteRepository>();
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
