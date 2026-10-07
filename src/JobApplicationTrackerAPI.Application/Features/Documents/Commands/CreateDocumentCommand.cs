@@ -27,6 +27,7 @@ public class CreateDocumentCommandValidator : AbstractValidator<CreateDocumentCo
             .NotEmpty().WithMessage("Job application ID is required.");
 
         RuleFor(x => x.File)
+            .Cascade(CascadeMode.Stop) // a null file must not reach the Must rules below
             .NotNull().WithMessage("File is required.")
             .Must(f => f.Length <= MaxFileSize).WithMessage($"File size must not exceed {MaxFileSize / (1024 * 1024)}MB.")
             .Must(f => AllowedContentTypes.Contains(f.ContentType)).WithMessage("File type is not allowed.");
