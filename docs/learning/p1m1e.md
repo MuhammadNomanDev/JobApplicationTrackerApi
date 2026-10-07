@@ -25,7 +25,7 @@ Four testing gaps closed in one milestone:
   clean-architecture layering is now a test, not a hope.
 - **Formatting is enforced.** `dotnet format` flagged 15 pre-existing files
   (using-directive sorting, per `.editorconfig`); all fixed, and
-  `dotnet format --check` now exits 0. A CI step snippet is provided for
+  `dotnet format whitespace --verify-no-changes` now exits 0. A CI step snippet is provided for
   Noman to add (the App cannot touch workflow files).
 - **Coverage is honest and ratcheted.** Every `dotnet test` now collects
   Cobertura via `coverlet.msbuild` with exclusions baked into
@@ -65,10 +65,14 @@ Four testing gaps closed in one milestone:
    higher — the follow-up after the first green CI run is to raise
    `tests/coverage-baseline.txt` to whatever CI reports. The gate is a
    *ratchet*: it may go up deliberately, never down to make red green.
-7. **`--check`, not `--verify-no-changes`, on dotnet-format 5.1.250801.**
-   The flag was renamed in later versions; this version exits **2** (not 1)
-   when files need formatting. The CI snippet pins the tool version so the
-   flag can't drift under us.
+7. **Two different programs share the name.** `dotnet format` (space) is
+   built into the .NET 10 SDK and uses
+   `dotnet format whitespace --verify-no-changes <sln>` (exit 2 on
+   violations, 0 when clean) — no tool install needed in CI.
+   `dotnet-format` (hyphen) is the old global tool 5.1.250801 with the
+   `--check` flag. The original CI snippet mixed the SDK command name with
+   the old tool's flag and failed; the corrected step uses the SDK built-in.
+   (Correction added during M1f; the merged doc above predates it.)
 
 ## 3. Verification (same machine, Release)
 
@@ -78,7 +82,7 @@ Four testing gaps closed in one milestone:
   execution-verified in CI (no Docker in this VM — stated, not hidden).
 - Coverage: **21.9%** (1078/4928 lines), migrations/`obj/`/test assemblies
   excluded; `scripts/coverage-gate.py` passes against the committed floor of 21.
-- Format: `dotnet format --check` exits 0 after fixing 15 files
+- Format: `dotnet format whitespace --verify-no-changes` exits 0 after fixing 15 files
   (using-directive sorting only — no logic changed).
 
 ## 4. Interview Q&A
@@ -144,12 +148,12 @@ reviewed commit — visible in the PR diff — rather than a magic number buried
 in YAML. `coverage-gate.py` reads it; CI fails if the merged report drops
 below it.
 
-**Q10. `dotnet format --check` exited 2 — is that a failure?**
-Yes — any non-zero exit fails the CI step. This version uses exit code 2
-(older/newer versions differ: some use 1, latest uses `--verify-no-changes`
-instead of `--check`). That's why the CI snippet pins
-`dotnet-format 5.1.250801`: the flag and the exit code can't drift when the
-tool updates.
+**Q10. `dotnet format whitespace --verify-no-changes` exited 2 — is that a failure?**
+Yes — any non-zero exit fails the CI step. Note the command carefully:
+`dotnet format` (space) is the .NET 10 SDK's built-in formatter, a different
+program from the old `dotnet-format` global tool (hyphen, `--check` flag).
+An early version of this doc mixed the two and the CI step failed; the fix
+was to use the SDK built-in with no tool install at all.
 
 ## 5. Postscript — the journey tests caught a real production bug
 
@@ -186,5 +190,5 @@ against real infrastructure, suspect the app first.
    than 20 lines. In one paragraph, say which test you would write next to
    cover it and why — this is the seed of the follow-up 80% milestone.
 3. Deliberately break formatting in one file (add a stray blank line inside
-   a method), run `dotnet format --check`, observe the exit code, then run
+   a method), run `dotnet format whitespace --verify-no-changes`, observe the exit code (2), then run
    `dotnet format` to fix it and re-verify exit 0. Revert the file.
