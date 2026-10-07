@@ -21,6 +21,18 @@ public class BlobStorageService : IBlobStorageService
         _blobServiceClient = new BlobServiceClient(_connectionString);
     }
 
+    /// <summary>
+    /// Test seam: inject a pre-built client (e.g. a mock) instead of
+    /// constructing one from a connection string. DI continues to use the
+    /// <see cref="IConfiguration"/> constructor.
+    /// </summary>
+    public BlobStorageService(BlobServiceClient blobServiceClient, string containerName, string connectionString)
+    {
+        _blobServiceClient = blobServiceClient;
+        _containerName = containerName;
+        _connectionString = connectionString;
+    }
+
     public async Task<string> UploadAsync(Stream fileStream, string fileName, string contentType, CancellationToken cancellationToken = default)
     {
         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
@@ -71,13 +83,16 @@ public class BlobStorageService : IBlobStorageService
     {
         var parts = connectionString.Split(';');
         var accountNamePart = parts.FirstOrDefault(p => p.StartsWith("AccountName=", StringComparison.OrdinalIgnoreCase));
-        return accountNamePart?.Split('=')[1] ?? string.Empty;
+        // Substring, not Split('=')[1]: values are base64 and may contain '=' padding.
+        return accountNamePart?["AccountName=".Length..] ?? string.Empty;
     }
 
     private static string ExtractAccountKey(string connectionString)
     {
         var parts = connectionString.Split(';');
         var accountKeyPart = parts.FirstOrDefault(p => p.StartsWith("AccountKey=", StringComparison.OrdinalIgnoreCase));
-        return accountKeyPart?.Split('=')[1] ?? string.Empty;
+        // Substring, not Split('=')[1]: storage keys are base64 and end with '=' padding,
+        // which Split would strip and turn into a FormatException in StorageSharedKeyCredential.
+        return accountKeyPart?["AccountKey=".Length..] ?? string.Empty;
     }
 }
