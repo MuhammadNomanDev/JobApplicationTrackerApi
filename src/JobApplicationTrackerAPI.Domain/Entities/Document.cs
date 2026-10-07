@@ -7,19 +7,19 @@ public class Document : BaseEntity
     public string FileName { get; private set; } = null!;
     public string FileUrl { get; private set; } = null!;
     public DocumentType DocumentType { get; private set; }
-    
+
     // Foreign key
     public Guid JobApplicationId { get; private set; }
-    
+
     // Navigation properties
     public JobApplication JobApplication { get; private set; } = null!;
 
     private Document() { } // For EF Core
 
     public Document(
-        string fileName, 
-        string fileUrl, 
-        DocumentType documentType, 
+        string fileName,
+        string fileUrl,
+        DocumentType documentType,
         Guid jobApplicationId)
     {
         FileName = fileName;

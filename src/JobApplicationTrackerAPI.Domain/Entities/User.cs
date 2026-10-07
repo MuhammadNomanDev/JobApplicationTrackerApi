@@ -10,7 +10,7 @@ public class User : BaseEntity
     public string PasswordHash { get; private set; } = null!;
     public string RefreshToken { get; private set; } = null!;
     public DateTime RefreshTokenExpiryTime { get; private set; }
-    
+
     // Navigation properties
     private readonly List<JobApplication> _jobApplications = new();
     public IReadOnlyCollection<JobApplication> JobApplications => _jobApplications.AsReadOnly();

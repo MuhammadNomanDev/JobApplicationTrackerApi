@@ -1,3 +1,5 @@
+using System.Text;
+using System.Threading.RateLimiting;
 using JobApplicationTrackerAPI.Api.Middleware;
 using JobApplicationTrackerAPI.Api.OpenApi;
 using JobApplicationTrackerAPI.Application;
@@ -10,8 +12,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Serilog;
-using System.Text;
-using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,7 @@ builder.Host.UseSerilog();
 // ── Services ─────────────────────────────────────────────────────────────
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 
 // Built-in OpenAPI document generation (.NET 9+); the JWT Bearer scheme that

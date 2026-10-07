@@ -1,9 +1,9 @@
+using System.Text.Json;
 using Azure.Messaging.ServiceBus;
+using JobApplicationTrackerAPI.Application.Events;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using System.Text.Json;
-using JobApplicationTrackerAPI.Application.Events;
 
 namespace JobApplicationTrackerAPI.Infrastructure.Services;
 

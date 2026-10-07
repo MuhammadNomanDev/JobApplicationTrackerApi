@@ -1,12 +1,12 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Application.Settings;
 using JobApplicationTrackerAPI.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace JobApplicationTrackerAPI.Infrastructure.Services;
 

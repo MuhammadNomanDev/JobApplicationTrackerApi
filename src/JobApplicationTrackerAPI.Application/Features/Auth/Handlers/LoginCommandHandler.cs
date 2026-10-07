@@ -1,10 +1,10 @@
+using FluentValidation;
 using JobApplicationTrackerAPI.Application.Features.Auth.Commands;
 using JobApplicationTrackerAPI.Application.Features.Auth.Responses;
 using JobApplicationTrackerAPI.Application.Interfaces;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Domain.Interfaces;
 using MediatR;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobApplicationTrackerAPI.Application.Features.Auth.Handlers;

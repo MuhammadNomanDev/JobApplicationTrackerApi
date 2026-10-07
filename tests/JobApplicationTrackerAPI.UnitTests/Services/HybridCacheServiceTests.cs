@@ -1,5 +1,5 @@
-using AwesomeAssertions;
 using System.Threading;
+using AwesomeAssertions;
 using JobApplicationTrackerAPI.Application.Interfaces.Services;
 using JobApplicationTrackerAPI.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;

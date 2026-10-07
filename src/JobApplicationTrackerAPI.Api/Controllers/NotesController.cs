@@ -73,5 +73,5 @@ public class NotesController : ControllerBase
         await _mediator.Send(new DeleteNoteCommand(id));
         return NoContent();
     }
-    
+
 }

@@ -1,7 +1,7 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Moq;
-using System.Linq.Expressions;
 
 namespace JobApplicationTrackerAPI.UnitTests.Helpers;
 
