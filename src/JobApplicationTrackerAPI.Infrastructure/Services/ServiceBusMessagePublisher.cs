@@ -27,6 +27,16 @@ public class ServiceBusMessagePublisher : IMessagePublisher
         _sender = client.CreateSender(queueName);
     }
 
+    /// <summary>
+    /// Test seam: inject a pre-built sender (e.g. a mock). DI continues to
+    /// use the <see cref="IConfiguration"/> constructor.
+    /// </summary>
+    public ServiceBusMessagePublisher(ServiceBusSender sender)
+    {
+        _isConfigured = true;
+        _sender = sender;
+    }
+
     public async Task PublishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class
     {
         if (!_isConfigured)
