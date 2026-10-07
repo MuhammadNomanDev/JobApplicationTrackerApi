@@ -30,6 +30,16 @@ internal static class MockDbSetHelper
             .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
             .Returns(new TestAsyncEnumerator<T>(queryable.GetEnumerator()));
 
+        // DbSet<T>.AsQueryable() is a public virtual EF Core convenience method
+        // (=> this in production; it exists to disambiguate IQueryable extension
+        // methods). Instance methods beat extension methods in overload resolution,
+        // so handlers calling _context.Set.AsQueryable() hit THIS, not
+        // System.Linq.Queryable.AsQueryable. On an unstubbed Moq DbSet it does not
+        // return the mock (observed: an EnumerableQuery<T> wrapper whose provider
+        // is not async-capable, breaking CountAsync/ToListAsync), so stub it to
+        // return the mock itself and keep the async provider.
+        mockSet.Setup(m => m.AsQueryable()).Returns(() => (IQueryable<T>)mockSet.Object);
+
         return mockSet;
     }
 }
