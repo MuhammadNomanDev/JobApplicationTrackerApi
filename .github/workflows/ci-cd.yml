@@ -104,22 +104,23 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      id-token: write   # required for OIDC
+      contents: read
     env:
-      HAS_AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS != '' }}
-
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
     steps:
-    - name: Azure Login
-      if: env.HAS_AZURE_CREDENTIALS == 'true'
-      uses: azure/login@v1
+    - name: Azure Login (OIDC)
+      uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        client-id: ${{ env.AZURE_CLIENT_ID }}
+        tenant-id: ${{ env.AZURE_TENANT_ID }}
+        subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Deploy to Azure App Service
-      if: env.HAS_AZURE_CREDENTIALS == 'true'
-      uses: azure/webapps-deploy@v2
+    - name: Deploy container image to Web App
+      uses: azure/webapps-deploy@v3
       with:
-        app-name: job-application-tracker-api
-        # NOTE: image now comes from GHCR (see docker job). The App Service needs
-        # GHCR pull credentials configured, or this step will fail to pull.
-        # Deployment is reworked properly with OIDC in P1/M2.
+        app-name: jobtracker-noman-dev-api-akbudaaudcheefgd
         images: ghcr.io/muhammadnomandev/job-application-tracker-api:latest
