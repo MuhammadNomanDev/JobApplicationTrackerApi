@@ -1,0 +1,45 @@
+# P1/M2: Deploy job replacement (OIDC, no long-lived secrets).
+# Noman: replace the existing "Deploy to Azure" job in .github/workflows/ci-cd.yml
+# with the job below (via GitHub web UI — the App cannot edit workflows).
+#
+# Prerequisites (one-time, see infra/oidc-setup.md):
+#   1. Web App deployed in the Azure portal (West US 3):
+#      jobtracker-noman-dev-api-akbudaaudcheefgd
+#      https://jobtracker-noman-dev-api-akbudaaudcheefgd.westus3-01.azurewebsites.net
+#   2. Microsoft Entra app `jobtracker-github-actions` with federated credential
+#      `jobtracker-main` trusting this repo's main branch (OIDC).
+#   3. The Entra app has Contributor on the resource group (Access control (IAM)).
+#   4. These GitHub Actions secrets set (Settings → Secrets and variables → Actions):
+#        AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
+#   5. App settings configured on the Web App (DefaultConnection, Jwt__ values).
+#
+# What it does on every push to main (after the docker job):
+#   1. Logs in to Azure via OIDC (azure/login@v2, no stored secret).
+#   2. Deploys the new GHCR image to the Web App (azure/webapps-deploy@v3).
+
+  deploy:
+    name: Deploy to Azure
+    needs: docker
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      id-token: write   # required for OIDC
+      contents: read
+    env:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    steps:
+    - name: Azure Login (OIDC)
+      uses: azure/login@v2
+      with:
+        client-id: ${{ env.AZURE_CLIENT_ID }}
+        tenant-id: ${{ env.AZURE_TENANT_ID }}
+        subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Deploy container image to Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: jobtracker-noman-dev-api-akbudaaudcheefgd
+        images: ghcr.io/muhammadnomandev/job-application-tracker-api:latest
