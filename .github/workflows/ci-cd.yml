@@ -122,7 +122,7 @@ jobs:
     - name: Deploy container image to Web App
       run: |
         az webapp config container set \
-          --name jobtracker-noman-dev-api-akbudaaudcheefgd \
+          --name jobtracker-noman-dev-api \
           --resource-group rg-jobtracker \
           --docker-custom-image-name ghcr.io/muhammadnomandev/job-application-tracker-api:latest \
           --docker-registry-server-url https://ghcr.io
