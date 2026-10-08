@@ -7,10 +7,10 @@
 //     --parameters sqlAdminPassword='<STRONG_PASSWORD>'
 
 @description('Azure region for all resources.')
-param location string = 'ukwest'
+param location string = 'westeurope'
 
 @description('Base name for resources. Must be globally unique for some resources.')
-param baseName string = 'jobtracker'
+param baseName string = 'jobtracker-noman-dev'
 
 @description('SQL Server admin login.')
 param sqlAdminLogin string = 'sqladmin'
