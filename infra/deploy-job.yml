@@ -2,17 +2,20 @@
 # Noman: replace the existing "Deploy to Azure" job in .github/workflows/ci-cd.yml
 # with the job below (via GitHub web UI — the App cannot edit workflows).
 #
-# Prerequisites (one-time, see docs/learning/p1m2.md):
-#   1. `infra/main.bicep` deployed (resource group rg-jobtracker, UK South).
-#   2. Microsoft Entra app with a federated credential trusting this repo's
-#      main branch (OIDC). No AZURE_CREDENTIALS secret needed.
-#   3. These GitHub Actions secrets set (Settings → Secrets and variables → Actions):
+# Prerequisites (one-time, see infra/oidc-setup.md):
+#   1. Web App deployed in the Azure portal (West US 3):
+#      jobtracker-noman-dev-api-akbudaaudcheefgd
+#      https://jobtracker-noman-dev-api-akbudaaudcheefgd.westus3-01.azurewebsites.net
+#   2. Microsoft Entra app `jobtracker-github-actions` with federated credential
+#      `jobtracker-main` trusting this repo's main branch (OIDC).
+#   3. The Entra app has Contributor on the resource group (Access control (IAM)).
+#   4. These GitHub Actions secrets set (Settings → Secrets and variables → Actions):
 #        AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
-#   4. App settings configured on the Web App (connection strings, Jwt__Key, etc.).
+#   5. App settings configured on the Web App (DefaultConnection, Jwt__ values).
 #
 # What it does on every push to main (after the docker job):
 #   1. Logs in to Azure via OIDC (azure/login@v2, no stored secret).
-#   2. Restarts the Web App so it pulls the new GHCR image.
+#   2. Deploys the new GHCR image to the Web App (azure/webapps-deploy@v3).
 
   deploy:
     name: Deploy to Azure
@@ -38,5 +41,5 @@
     - name: Deploy container image to Web App
       uses: azure/webapps-deploy@v3
       with:
-        app-name: jobtracker-api
+        app-name: jobtracker-noman-dev-api-akbudaaudcheefgd
         images: ghcr.io/muhammadnomandev/job-application-tracker-api:latest

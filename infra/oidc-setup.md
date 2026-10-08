@@ -55,7 +55,7 @@ cannot edit workflows, so this is a web-UI paste.
 
 ## 6. Configure App Service app settings
 
-In the Azure portal → `jobtracker-api` → **Configuration** → **Application settings**,
+In the Azure portal → `jobtracker-noman-dev-api-akbudaaudcheefgd` → **Configuration** → **Application settings**,
 add (from the Bicep deployment outputs + your own values):
 
 | Name | Value |
@@ -70,4 +70,4 @@ add (from the Bicep deployment outputs + your own values):
 (`__` is how App Service maps to .NET's `:` config hierarchy.)
 
 Then push to `main` — the workflow deploys the container and restarts the app.
-Check `https://jobtracker-api.azurewebsites.net/health/live`.
+Check `https://jobtracker-noman-dev-api-akbudaaudcheefgd.westus3-01.azurewebsites.net/health/ready`.
