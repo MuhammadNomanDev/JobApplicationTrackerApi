@@ -17,7 +17,7 @@
     <!-- ADR-001: pinned at 12.2.0, the last Apache-2.0 version. Decline Dependabot
          majors past 12.x (commercial line) per the ADR. -->
     <PackageVersion Include="MediatR" Version="12.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.13" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
     <!-- Removed in P1/M1a: referenced but unused; re-added in P1/M1c with Scalar. -->
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.12" />
